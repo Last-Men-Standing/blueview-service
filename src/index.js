@@ -1,3 +1,7 @@
 "use strict";
+const app = require("./server");
 
-console.log("Coming soon");
+setImmediate(async () => await app.start());
+
+process.on("exit", async () => await app.stop());
+process.on("SIGINT", async () => await app.stop());
