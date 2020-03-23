@@ -1,5 +1,5 @@
 "use strict";
-const app = require("./server");
+const app = require("./services/server");
 
 setImmediate(async () => await app.start());
 
