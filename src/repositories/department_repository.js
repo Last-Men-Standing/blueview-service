@@ -5,6 +5,7 @@ const { getConnection } = require("../services/postgres");
  * Department repository 
  * @author Anthony Chen, William Zawilinski
  * @TODO Refactor to throw errors up to controller layer
+ * @TODO Post by Department Implementation
  */
 
 const checkAddressExists = async (address) => {
@@ -22,29 +23,45 @@ const checkAddressExists = async (address) => {
     console.error(`DB Error: ${error}`)
   }
 }
-
-const create = async (department_data) => {
-  const name = department_data.name;
-  const address = department_data.address;
-  const zipcode = department_data.zipcode;
-  const overall_rating = department_data.overall_rating;
-  
-
-  try {
-    const dbClient = await getConnection();
-    const statement = "INSERT INTO department (name, address, zipcode, overall_rating) VALUES ($1, $2, $3, $4) RETURNING id";
-    const createResult = await dbClient.query(statement, [name, address, zipcode, overall_rating]);
-    return createResult;
-
-    if (createResult.rows.length < 1) {
-      console.error(createResult);
-      throw Error("Could not create department");
-    }
-    return createResult.rows[0]["id"];
+const getByAddress = async (address) => {
+  const dbClient = await getConnection();
+  const departmentResult = await dbClient.query("SELECT * FROM department WHERE address = $1", [address]);
+  if (departmentResult.rows.length > 0) {
+    return departmentResult.rows;
   }
-  catch (error) {
-    console.error(`DB Error: ${error}`)
+  else {
+    throw "Address not in Department";
   }
 }
 
-module.exports = { checkAddressExists, create }
+const getById = async (id) => {
+  const dbClient = await getConnection();
+  const departmentResult = await dbClient.query("SELECT * FROM department WHERE id = $1", [id]);
+  if (departmentResult.rows.length > 0) {
+    return departmentResult.rows;
+  }
+  else {
+    throw "ID not in Department";
+  }
+}
+
+const getByZipcode = async (zipcode) => {
+  const dbClient = await getConnection();
+  
+  const departmentResult = await dbClient.query("SELECT * FROM department WHERE zipcode = $1", [zipcode]);
+  if (departmentResult.rows.length > 0) {
+    return departmentResult.rows;
+  }
+  else {
+    throw "Zipcode not in Department";
+  }
+}
+
+const getAll = async () => {
+  const dbClient = await getConnection();
+  const departmentResult = await dbClient.query("SELECT * FROM department");
+  return departmentResult.rows;
+}
+
+
+module.exports = { checkAddressExists, getByAddress, getById, getByZipcode, getAll}
