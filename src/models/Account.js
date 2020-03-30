@@ -15,6 +15,7 @@ const validateFields = (data) => {
   const username = data.username;
   const password = data.password;
   const password_2 = data.password_2;
+
   if (isEmpty(first_name) || !isAlpha(first_name)) {
     return { error_type: "first_name", msg: "First name invalid" }
   }
