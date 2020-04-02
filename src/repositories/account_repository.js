@@ -30,11 +30,11 @@ const create = async (account_data) => {
   const last_name = account_data.last_name;
   const username = account_data.username;
   const pass_hash = await hashPassword(account_data.password);
-  const department_id = 0;
+  //const department_id = 0;
 
   const dbClient = await getConnection();
-  const statement = "INSERT INTO account (department_id, firstName, lastName, username, pass_hash) VALUES ($1, $2, $3, $4, $5) RETURNING id";
-  const createResult = await dbClient.query(statement, [department_id, first_name, last_name, username, pass_hash]);
+  const statement = "INSERT INTO account (first_name, last_name, username, pass_hash) VALUES ($1, $2, $3, $4) RETURNING id";
+  const createResult = await dbClient.query(statement, [first_name, last_name, username, pass_hash]);
   return createResult;
 
   if (createResult.rows.length < 1) {

@@ -27,10 +27,10 @@ const getByAddress = async (address) => {
   const dbClient = await getConnection();
   const departmentResult = await dbClient.query("SELECT * FROM department WHERE address = $1", [address]);
   if (departmentResult.rows.length > 0) {
-    return departmentResult.rows;
+    return departmentResult.rows[0];
   }
   else {
-    throw "Address not in Department";
+    throw Error("Address not in Department");
   }
 }
 
@@ -47,7 +47,7 @@ const getById = async (id) => {
 
 const getByZipcode = async (zipcode) => {
   const dbClient = await getConnection();
-  
+
   const departmentResult = await dbClient.query("SELECT * FROM department WHERE zipcode = $1", [zipcode]);
   if (departmentResult.rows.length > 0) {
     return departmentResult.rows;
@@ -59,9 +59,14 @@ const getByZipcode = async (zipcode) => {
 
 const getAll = async () => {
   const dbClient = await getConnection();
-  const departmentResult = await dbClient.query("SELECT * FROM department");
+  const departmentResult = await dbClient.query("SELECT * FROM department GROUP BY id ORDER BY name");
   return departmentResult.rows;
 }
 
+// const insertPost = async () => {
+//   const dbClient = await getConnection();
+//   const 
+// }
 
-module.exports = { checkAddressExists, getByAddress, getById, getByZipcode, getAll}
+
+module.exports = { checkAddressExists, getByAddress, getById, getByZipcode, getAll }

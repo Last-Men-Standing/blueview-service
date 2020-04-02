@@ -11,8 +11,9 @@ const createToken = async (user_data) => {
 
 }
 
-const decodeToken = async () => {
-  console.log("hmm")
+const decodeToken = (token) => {
+  const decodedToken = jwt.decode(token);
+  return decodedToken.payload;
 }
 
 module.exports = { createToken, decodeToken }

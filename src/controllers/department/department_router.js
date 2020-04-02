@@ -4,9 +4,9 @@ const express = require("express");
 const { getDepartmentbyAddress, getDepartmentbyId, getDepartmentbyZipcode, getDepartments } = require("./department_controller");
 const departmentRouter = express.Router();
 
-departmentRouter.get("/getDepartmentbyAddress", getDepartmentbyAddress);
-departmentRouter.get("/getDepartmentbyId", getDepartmentbyId);
-departmentRouter.get("/getDepartmentbyZipcode", getDepartmentbyZipcode);
-departmentRouter.get("/getDepartments", getDepartments);
+departmentRouter.get("/:address", getDepartmentbyAddress);
+departmentRouter.get("/:id", getDepartmentbyId);
+departmentRouter.get("/zipcode/:zipcode", getDepartmentbyZipcode);
+departmentRouter.get("/all", getDepartments);
 
 exports.departmentRouter = departmentRouter;

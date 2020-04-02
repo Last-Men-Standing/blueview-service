@@ -4,8 +4,8 @@ const express = require("express");
 const { createAccount, login, getById } = require("./account_controller");
 const accountRouter = express.Router();
 
-accountRouter.put("/createAccount", createAccount);
-accountRouter.put("/login", login);
+accountRouter.post("/createAccount", createAccount);
+accountRouter.post("/login", login);
 accountRouter.get("/:id", getById)
 
 exports.accountRouter = accountRouter;

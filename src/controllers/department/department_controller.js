@@ -13,7 +13,7 @@ const getDepartmentbyAddress = async (req, res) => {
   }
   try {
     const departmentRequested = await getByAddress(department_data.address);
-    res.status(200).json({ success: true, department: departmentRequested});
+    res.status(200).json({ success: true, department: departmentRequested });
   }
   catch (err) {
     res.status(500).json({ success: false, error: err })
@@ -23,7 +23,7 @@ const getDepartmentbyAddress = async (req, res) => {
 
 const getDepartmentbyId = async (req, res) => {
   const department_data = {
-    id: req.body.id
+    id: req.params.id
   }
   const { error_type, msg } = validateId(department_data);
   if (error_type != "none") {
@@ -31,7 +31,7 @@ const getDepartmentbyId = async (req, res) => {
   }
   try {
     const departmentRequested = await getById(department_data.id);
-    res.status(200).json({ success: true, department: departmentRequested});
+    res.status(200).json({ success: true, department: departmentRequested });
   }
   catch (err) {
     res.status(500).json({ success: false, error: err })
@@ -41,7 +41,7 @@ const getDepartmentbyId = async (req, res) => {
 
 const getDepartmentbyZipcode = async (req, res) => {
   const department_data = {
-    zipcode: req.body.zipcode
+    zipcode: req.params.zipcode
   }
   const { error_type, msg } = validateZipcode(department_data);
   if (error_type != "none") {
@@ -49,7 +49,7 @@ const getDepartmentbyZipcode = async (req, res) => {
   }
   try {
     const departmentRequested = await getByZipcode(department_data.zipcode);
-    res.status(200).json({ success: true, department: departmentRequested});
+    res.status(200).json({ success: true, department: departmentRequested });
   }
   catch (err) {
     res.status(500).json({ success: false, error: err })
@@ -59,7 +59,7 @@ const getDepartmentbyZipcode = async (req, res) => {
 const getDepartments = async (req, res) => {
   try {
     const departmentsRequested = await getAll();
-    res.status(200).json({ success: true, departments: departmentsRequested});
+    res.status(200).json({ success: true, departments: departmentsRequested });
   }
   catch (err) {
     res.status(500).json({ success: false, error: "err" })
