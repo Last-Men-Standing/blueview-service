@@ -8,6 +8,7 @@ const { getConnection } = require("../services/postgres");
  * @TODO Post by Department Implementation
  */
 
+/*
 const checkAddressExists = async (address) => {
   try {
     const dbClient = await getConnection();
@@ -33,6 +34,7 @@ const getByAddress = async (address) => {
     throw Error("Address not in Department");
   }
 }
+*/
 
 const getById = async (id) => {
   const dbClient = await getConnection();
@@ -69,4 +71,4 @@ const getAll = async () => {
 // }
 
 
-module.exports = { checkAddressExists, getByAddress, getById, getByZipcode, getAll }
+module.exports = { getById, getByZipcode, getAll }

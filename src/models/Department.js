@@ -29,14 +29,14 @@ const validateFields = (data) => {
   return { error_type: "none" }
 
 }
-const validateAddress = (data) => {
+/*const validateAddress = (data) => {
   const address = data.address;
-  if (isEmpty(address) || !(address)) {
+  if (!(address) || isEmpty(address)) {
     return { error_type: "address", msg: "Address cannot be empty" }
   }
   return { error_type: "none" }
 
-}
+}*/
 const validateId = (data) => {
   const id = data.id;
   if (!(id) || isEmpty(id) || !isNumeric(id)) {
@@ -54,4 +54,4 @@ const validateZipcode = (data) => {
   return { error_type: "none" }
 
 }
-module.exports = { validateFields, validateAddress, validateId, validateZipcode }
+module.exports = { validateFields, validateId, validateZipcode }
