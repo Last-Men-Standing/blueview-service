@@ -1,11 +1,13 @@
 "use strict";
 const express = require("express");
 // Import controller functions
-const { getDepartmentbyId, getDepartmentbyZipcode, getDepartments } = require("./department_controller");
+const { verifyToken } = require("../../middleware/authorization");
+const { getDepartmentbyId, getDepartmentbyZipcode, getDepartments, createPost } = require("./department_controller");
 const departmentRouter = express.Router();
 
-departmentRouter.get("/getbyid/:id", getDepartmentbyId);
-departmentRouter.get("/zipcode/:zipcode", getDepartmentbyZipcode);
 departmentRouter.get("/all", getDepartments);
+departmentRouter.get("/zipcode/:zipcode", getDepartmentbyZipcode);
+departmentRouter.get("/:id", getDepartmentbyId);
+departmentRouter.post("/:id/post", verifyToken, createPost)
 
 exports.departmentRouter = departmentRouter;

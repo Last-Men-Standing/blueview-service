@@ -1,6 +1,8 @@
 "use strict";
 const { getAll, getByAddress, getById, getByZipcode } = require("../../repositories/department_repository");
+const { insert } = require("../../repositories/post_repository");
 const { validateAddress, validateId, validateZipcode } = require("../../models/Department");
+const { decodeToken } = require("../../authentication/token");
 
 
 const getDepartmentbyAddress = async (req, res) => {
@@ -67,5 +69,34 @@ const getDepartments = async (req, res) => {
 
 }
 
-module.exports = { getDepartmentbyAddress, getDepartmentbyId, getDepartmentbyZipcode, getDepartments }
+/**
+ * @TODO Add support for post rating
+ * @param {*} req 
+ * @param {*} res 
+ */
+const createPost = async (req, res) => {
+  const payload = decodeToken(req.headers.authorization);
+  const post_data = {
+    user_id: payload.user_id,
+    department_id: parseInt(req.params.id),
+    incident_date: req.body.incident_date,
+    title: req.body.title,
+    body: req.body.body
+  }
+
+  // Form validation here
+
+  try {
+    const insertResult = await insert(post_data);
+    res.status(200).json({ success: true, post: post_data })
+  }
+  catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+
+}
+
+
+
+module.exports = { getDepartmentbyAddress, getDepartmentbyId, getDepartmentbyZipcode, getDepartments, createPost }
 

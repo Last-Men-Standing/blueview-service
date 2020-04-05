@@ -7,8 +7,9 @@ const verifyToken = async (req, res, next) => {
     res.status(401).json({ success: false, error: "UNAUTHORIZED" });
   }
   const token = req.headers.authorization.split(' ')[1];
+  let validatedToken;
   try {
-    const validatedToken = await jwt.verify(token, SECRET);
+    validatedToken = jwt.verify(token, Buffer.from(PRIVATE_KEY).toString('base64'));
     next();
   }
   catch (err) {

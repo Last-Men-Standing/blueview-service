@@ -23,6 +23,7 @@ const createAccount = async (req, res) => {
   }
   try {
     const accountCreated = await create(account_data);
+    account_data.id = accountCreated;
     const token = await createToken(account_data)
     res.status(200).json({ success: true, credentials: `Bearer ${token}`, account: accountCreated });
   }
@@ -41,6 +42,7 @@ const login = async (req, res) => {
     res.status(400).json({ success: false, error: "Account not found" })
     return;
   }
+
   // Need to compare passwords
   const pass_match = await verifyPassword(password, account.pass_hash);
   if (!pass_match) {

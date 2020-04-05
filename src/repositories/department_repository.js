@@ -65,10 +65,6 @@ const getAll = async () => {
   return departmentResult.rows;
 }
 
-// const insertPost = async () => {
-//   const dbClient = await getConnection();
-//   const 
-// }
 
 
 module.exports = { getById, getByZipcode, getAll }

@@ -30,24 +30,22 @@ const create = async (account_data) => {
   const last_name = account_data.last_name;
   const username = account_data.username;
   const pass_hash = await hashPassword(account_data.password);
-  //const department_id = 0;
 
   const dbClient = await getConnection();
-  const statement = "INSERT INTO account (first_name, last_name, username, pass_hash) VALUES ($1, $2, $3, $4) RETURNING id";
+  const statement = "INSERT INTO account (first_name, last_name, username, pass_hash) VALUES ($1, $2, $3, $4) RETURNING id;";
   const createResult = await dbClient.query(statement, [first_name, last_name, username, pass_hash]);
-  return createResult;
 
   if (createResult.rows.length < 1) {
     console.error(createResult);
     throw Error("Could not create account");
   }
-  return createResult.rows[0]["id"];
+  return createResult.rows[0].id;
 
 }
 
 const get = async (id) => {
   const dbClient = await getConnection();
-  const statement = "SELECT * FROM account WHERE id = $1";
+  const statement = "SELECT * FROM account WHERE id = $1;";
   const getResult = await dbClient.query(statement, [id]);
 
   if (getResult.rows.length < 1) throw Error("Could not fetch account");
