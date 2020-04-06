@@ -16,16 +16,16 @@ const validateFields = (data) => {
   const password = data.password;
   const password_2 = data.password_2;
 
-  if (isEmpty(first_name) || !isAlpha(first_name)) {
+  if (!first_name || isEmpty(first_name) || !isAlpha(first_name)) {
     return { error_type: "first_name", msg: "First name invalid" }
   }
-  if (isEmpty(last_name) || !isAlpha(last_name)) {
+  if (!last_name || isEmpty(last_name) || !isAlpha(last_name)) {
     return { error_type: "last", msg: "Last name invalid" }
   }
-  if (!isLength(username, { min: 2, max: 20 })) {
+  if (!username || !isLength(username, { min: 2, max: 20 })) {
     return { error_type: "username", msg: "Username must be between 2 and 20 characters" }
   }
-  if (isEmpty(password) || password != password_2) {
+  if (!password || !password_2 || isEmpty(password) || password != password_2) {
     return { error_type: "password", msg: "Passwords must match and cannot be empty" }
   }
 

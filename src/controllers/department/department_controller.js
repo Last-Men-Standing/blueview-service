@@ -1,7 +1,8 @@
 "use strict";
-const { getAll, getByAddress, getById, getByZipcode } = require("../../repositories/department_repository");
-const { insert } = require("../../repositories/post_repository");
-const { validateAddress, validateId, validateZipcode } = require("../../models/Department");
+const { getAll, getById, getByZipcode } = require("../../repositories/department_repository");
+const { insert, getByDepartment } = require("../../repositories/post_repository");
+const { validateZipcode, validateId } = require("../../models/Department");
+const { validateFields } = require("../../models/Post");
 const { decodeToken } = require("../../authentication/token");
 
 
@@ -84,7 +85,12 @@ const createPost = async (req, res) => {
     body: req.body.body
   }
 
-  // Form validation here
+  const postValidation = validateFields(post_data);
+  if (postValidation.error_type != "none") {
+    res.status(500).json({ success: false, error_type: postValidation.error_type, error: postValidation.msg });
+    return;
+  }
+
 
   try {
     const insertResult = await insert(post_data);
@@ -96,7 +102,20 @@ const createPost = async (req, res) => {
 
 }
 
+const getDepartmentPosts = async (req, res) => {
+  const department_id = req.params.id;
+
+  try {
+    const departmentPosts = await getByDepartment(department_id);
+    res.status(200).json({ success: true, department_posts: departmentPosts })
+  }
+  catch (err) {
+    res.status(500).json({ success: false, error: err })
+
+  }
+}
 
 
-module.exports = { getDepartmentbyAddress, getDepartmentbyId, getDepartmentbyZipcode, getDepartments, createPost }
+
+module.exports = { getDepartmentbyId, getDepartmentbyZipcode, getDepartments, createPost, getDepartmentPosts }
 

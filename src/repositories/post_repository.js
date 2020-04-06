@@ -1,6 +1,7 @@
 "use strict"
 const { getConnection } = require("../services/postgres");
 
+
 /**
  * @TODO Add support for rating and updating department_data inserts
  * @param {*} post_data 
@@ -20,4 +21,17 @@ const insert = async (post_data) => {
 
 }
 
-module.exports = { insert }
+const getByDepartment = async (department_id) => {
+  const dbClient = await getConnection();
+
+  const statement = "SELECT * FROM post WHERE department_id = $1 ORDER BY created_at DESC";
+  const getResult = await dbClient.query(statement, [department_id]);
+
+  if (getResult.rows.length < 1) {
+    throw Error("Could not get posts");
+  }
+  return getResult.rows;
+
+}
+
+module.exports = { insert, getByDepartment }
