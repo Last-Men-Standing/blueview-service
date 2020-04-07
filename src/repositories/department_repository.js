@@ -12,6 +12,8 @@ const { getConnection } = require("../services/postgres");
 const getById = async (id) => {
   const dbClient = await getConnection();
   const departmentResult = await dbClient.query("SELECT * FROM department WHERE id = $1", [id]);
+  dbClient.release();
+
   if (departmentResult.rows.length > 0) {
     return departmentResult.rows;
   }
@@ -22,8 +24,9 @@ const getById = async (id) => {
 
 const getByZipcode = async (zipcode) => {
   const dbClient = await getConnection();
-
   const departmentResult = await dbClient.query("SELECT * FROM department WHERE zipcode = $1", [zipcode]);
+  dbClient.release();
+
   if (departmentResult.rows.length > 0) {
     return departmentResult.rows;
   }
@@ -35,6 +38,8 @@ const getByZipcode = async (zipcode) => {
 const getAll = async () => {
   const dbClient = await getConnection();
   const departmentResult = await dbClient.query("SELECT * FROM department GROUP BY id ORDER BY name");
+  dbClient.release();
+
   return departmentResult.rows;
 }
 

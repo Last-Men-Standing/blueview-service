@@ -10,19 +10,17 @@ const { hashPassword } = require("../authentication/password");
 
 const getByUsername = async (username) => {
   const userId = 0;
-  try {
-    const dbClient = await getConnection();
-    const accountResult = await dbClient.query("SELECT * FROM account WHERE username = $1", [username]);
-    if (accountResult.rows.length < 1) {
-      return userId;
-    }
-    else {
-      return accountResult.rows[0];
-    }
+
+  const dbClient = await getConnection();
+  const accountResult = await dbClient.query("SELECT * FROM account WHERE username = $1", [username]);
+  dbClient.release();
+  if (accountResult.rows.length < 1) {
+    return userId;
   }
-  catch (error) {
-    console.error(`DB Error: ${error}`)
+  else {
+    return accountResult.rows[0];
   }
+
 }
 
 const create = async (account_data) => {
@@ -34,6 +32,7 @@ const create = async (account_data) => {
   const dbClient = await getConnection();
   const statement = "INSERT INTO account (first_name, last_name, username, pass_hash) VALUES ($1, $2, $3, $4) RETURNING id;";
   const createResult = await dbClient.query(statement, [first_name, last_name, username, pass_hash]);
+  dbClient.release();
 
   if (createResult.rows.length < 1) {
     console.error(createResult);
@@ -47,6 +46,7 @@ const get = async (id) => {
   const dbClient = await getConnection();
   const statement = "SELECT * FROM account WHERE id = $1;";
   const getResult = await dbClient.query(statement, [id]);
+  dbClient.release();
 
   if (getResult.rows.length < 1) throw Error("Could not fetch account");
   return getResult.rows[0]

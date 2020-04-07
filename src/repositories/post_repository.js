@@ -14,6 +14,7 @@ const insert = async (post_data) => {
   const post_statement = "INSERT INTO post (user_id, department_id, incident_date, title, body) VALUES ($1, $2, $3, $4, $5) RETURNING id";
 
   const postResult = await dbClient.query(post_statement, [user_id, department_id, incident_date, title, body]);
+  dbClient.release();
   if (postResult.rows.length < 1) {
     throw Error("Could not create post");
   }
@@ -26,6 +27,8 @@ const getByDepartment = async (department_id) => {
 
   const statement = "SELECT * FROM post WHERE department_id = $1 ORDER BY created_at DESC";
   const getResult = await dbClient.query(statement, [department_id]);
+  dbClient.release();
+
 
   if (getResult.rows.length < 1) {
     throw Error("Could not get posts");
