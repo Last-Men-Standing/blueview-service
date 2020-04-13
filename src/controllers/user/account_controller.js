@@ -12,9 +12,11 @@ const createAccount = async (req, res) => {
     password: req.body.password,
     password_2: req.body.password_2
   }
-  const { error_type, msg } = validateFields(account_data);
-  if (error_type != "none") {
-    res.status(400).json({ success: false, type: error_type, error: msg })
+
+  const errors = validateFields(account_data);
+  if (Object.keys(errors).length) {
+    res.status(400).json({ success: false, errors: errors })
+    return;
   }
   const account = await getByUsername(account_data.username);
   if (account.id > 0) {
