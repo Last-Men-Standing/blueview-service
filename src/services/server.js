@@ -1,6 +1,7 @@
 "use strict";
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require('cors');
 const { allowCORS } = require("../middleware/cors");
 const { start: pgStart, stop: pgStop } = require("./postgres");
 const { SERV_PORT } = process.env;
@@ -12,6 +13,7 @@ const app = express();
 // Add middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 app.use(allowCORS);
 
 // Add routes
