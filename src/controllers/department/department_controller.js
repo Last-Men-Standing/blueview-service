@@ -1,6 +1,6 @@
 "use strict";
-const { getAll, getById, getByZipcode } = require("../../repositories/department_repository");
-const { insert, getByDepartment } = require("../../repositories/post_repository");
+const { getAll, getById, getByZipcode, getRating } = require("../../repositories/department_repository");
+const { insert, getByDepartment, insertReply, getReplies } = require("../../repositories/post_repository");
 const { validateZipcode, validateId } = require("../../models/Department");
 const { validateFields } = require("../../models/Post");
 const { decodeToken } = require("../../authentication/token");
@@ -122,7 +122,59 @@ const getDepartmentPosts = async (req, res) => {
   }
 }
 
+const getDepartmentRating = async (req, res) => {
+  const department_id = req.params.id;
+  try {
+    const departmentRating = await getRating(department_id);
+    res.status(200).json({ success: true, rating: departmentRating });
+  }
+
+  catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+}
+
+// const getPostById = async (req, res) => {
+//   const id = req.params.id;
+
+//   try {
+//     const post = await getById
+//   }
+//   catch (err) {
+//     res.status(500).json({ success: false, error: err });
+//   }
+// }
+
+const createPostReply = async (req, res) => {
+  const payload = decodeToken(req.headers.authorization);
+  const reply_data = {
+    parent_post_id: parseInt(req.params.post_id),
+    user_id: payload.user_id,
+    text: req.body.text,
+  }
+
+  try {
+    const replyId = await insertReply(reply_data);
+    reply_data.id = replyId;
+    res.status(200).json({ success: true, reply: reply_data })
+  }
+  catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+
+}
+
+const getRepliesbyPost = async (req, res) => {
+  const post_id = parseInt(req.params.post_id);
+  try {
+    const replies = await getReplies(post_id);
+    res.status(200).json({ success: true, replies: replies })
+  }
+  catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+}
 
 
-module.exports = { getDepartmentbyId, getDepartmentbyZipcode, getDepartments, createPost, getDepartmentPosts }
+module.exports = { getDepartmentbyId, getDepartmentbyZipcode, getDepartments, createPost, getDepartmentPosts, getDepartmentRating, createPostReply, getRepliesbyPost }
 

@@ -42,10 +42,23 @@ const insert = async (post_data) => {
 
 }
 
+const getById = async (id) => {
+  const dbClient = await getConnection();
+
+  const statement = "SELECT * FROM post WHERE id = $1";
+  const getResult = await dbClient.query(statement, [id]);
+  dbClient.release();
+
+  if (getResult.rows.length < 1) {
+    throw Error("Could not get post by id");
+  }
+  return getResult.rows[0];
+}
+
 const getByDepartment = async (department_id) => {
   const dbClient = await getConnection();
 
-  const statement = "SELECT * FROM post WHERE department_id = $1 ORDER BY created_at DESC";
+  const statement = "SELECT * FROM post, rating WHERE department_id = $1 AND post.id = rating.post_id ORDER BY created_at DESC";
   const getResult = await dbClient.query(statement, [department_id]);
   dbClient.release();
 
@@ -57,4 +70,27 @@ const getByDepartment = async (department_id) => {
 
 }
 
-module.exports = { insert, getByDepartment }
+const insertReply = async (reply_data) => {
+  const dbClient = await getConnection();
+
+  const statement = "INSERT INTO post_reply (parent_post_id, user_id, text) VALUES ($1, $2, $3) RETURNING id";
+  const insertResult = await dbClient.query(statement, [reply_data.parent_post_id, reply_data.user_id, reply_data.text])
+  dbClient.release();
+
+
+  if (insertResult.rows.length < 1) {
+    throw Error("Could not create reply");
+  }
+  return insertResult.rows[0].id;
+}
+
+const getReplies = async (post_id) => {
+  const dbClient = await getConnection();
+
+  const statement = "SELECT * FROM post_reply WHERE parent_post_id = $1 ORDER BY created_at DESC ";
+  const getResult = await dbClient.query(statement, [post_id])
+  dbClient.release();
+
+  return getResult.rows;
+}
+module.exports = { insert, getByDepartment, insertReply, getReplies }
