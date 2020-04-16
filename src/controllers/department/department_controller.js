@@ -82,7 +82,14 @@ const createPost = async (req, res) => {
     department_id: parseInt(req.params.id),
     incident_date: req.body.incident_date,
     title: req.body.title,
-    body: req.body.body
+    body: req.body.body,
+    rating: {
+      attitude: req.body.attitude,
+      communication: req.body.communication,
+      efficiency: req.body.efficiency,
+      fairness: req.body.fairness,
+      safety: req.body.safety
+    }
   }
 
   const postValidation = validateFields(post_data);
