@@ -3,9 +3,9 @@ const { getConnection } = require("../services/postgres");
 
 
 /**
- * @TODO Add support for rating and updating department_data inserts
+ * Inserts post and rating into respective tables
  * @todo Cleanup this function, explore better ways to accomplish goals
- * @param {*} post_data 
+ * @param {Object} post_data 
  */
 const insert = async (post_data) => {
 
@@ -42,6 +42,10 @@ const insert = async (post_data) => {
 
 }
 
+/**
+ * Query post by internal id
+ * @param {number} id 
+ */
 const getById = async (id) => {
   const dbClient = await getConnection();
 
@@ -55,6 +59,10 @@ const getById = async (id) => {
   return getResult.rows[0];
 }
 
+/**
+ * Query all posts by department id
+ * @param {number} department_id 
+ */
 const getByDepartment = async (department_id) => {
   const dbClient = await getConnection();
 
@@ -70,6 +78,10 @@ const getByDepartment = async (department_id) => {
 
 }
 
+/**
+ * Insert reply into reply table
+ * @param {Object} reply_data 
+ */
 const insertReply = async (reply_data) => {
   const dbClient = await getConnection();
 
@@ -84,6 +96,10 @@ const insertReply = async (reply_data) => {
   return insertResult.rows[0].id;
 }
 
+/**
+ * Query all replies by post id
+ * @param {number} post_id 
+ */
 const getReplies = async (post_id) => {
   const dbClient = await getConnection();
 
@@ -93,4 +109,5 @@ const getReplies = async (post_id) => {
 
   return getResult.rows;
 }
+
 module.exports = { insert, getByDepartment, insertReply, getReplies }

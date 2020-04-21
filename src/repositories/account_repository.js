@@ -8,6 +8,11 @@ const { hashPassword } = require("../authentication/password");
  * @TODO Refactor to throw errors up to controller layer, fix department id in account schema
  */
 
+
+/**
+ * Querys account table by username
+ * @param {string} username 
+ */
 const getByUsername = async (username) => {
   const userId = 0;
 
@@ -23,6 +28,10 @@ const getByUsername = async (username) => {
 
 }
 
+/**
+ * Inserts new account in account table
+ * @param {Object} account_data 
+ */
 const create = async (account_data) => {
   const first_name = account_data.first_name;
   const last_name = account_data.last_name;
@@ -42,6 +51,10 @@ const create = async (account_data) => {
 
 }
 
+/**
+ * Querys account by internal id
+ * @param {*} id 
+ */
 const get = async (id) => {
   const dbClient = await getConnection();
   const statement = "SELECT * FROM account WHERE id = $1;";

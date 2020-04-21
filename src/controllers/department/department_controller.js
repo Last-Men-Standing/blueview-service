@@ -6,6 +6,11 @@ const { validateFields } = require("../../models/Post");
 const { decodeToken } = require("../../authentication/token");
 
 
+/**
+ * @todo Either remove or implement this function somewhere
+ * @param {*} req 
+ * @param {*} res 
+ */
 const getDepartmentbyAddress = async (req, res) => {
   const department_data = {
     address: req.body.address
@@ -24,6 +29,11 @@ const getDepartmentbyAddress = async (req, res) => {
 
 }
 
+/**
+ * Fetches department by internal id
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const getDepartmentbyId = async (req, res) => {
   const department_data = {
     id: req.params.id
@@ -42,6 +52,11 @@ const getDepartmentbyId = async (req, res) => {
 
 }
 
+/**
+ * Fetches department by zipcode
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const getDepartmentbyZipcode = async (req, res) => {
   const department_data = {
     zipcode: req.params.zipcode
@@ -59,6 +74,12 @@ const getDepartmentbyZipcode = async (req, res) => {
   }
 
 }
+
+/**
+ * Fetches all departments
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const getDepartments = async (req, res) => {
   try {
     const departmentsRequested = await getAll();
@@ -71,9 +92,9 @@ const getDepartments = async (req, res) => {
 }
 
 /**
- * @TODO Add support for post rating
- * @param {*} req 
- * @param {*} res 
+ * Creates a post by a user for a department, includes rating
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
  */
 const createPost = async (req, res) => {
   const payload = decodeToken(req.headers.authorization);
@@ -92,12 +113,12 @@ const createPost = async (req, res) => {
     }
   }
 
+
   const postValidation = validateFields(post_data);
   if (postValidation.error_type != "none") {
     res.status(500).json({ success: false, error_type: postValidation.error_type, error: postValidation.msg });
     return;
   }
-
 
   try {
     const insertResult = await insert(post_data);
@@ -109,6 +130,11 @@ const createPost = async (req, res) => {
 
 }
 
+/**
+ * Fetches all posts for a department
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const getDepartmentPosts = async (req, res) => {
   const department_id = req.params.id;
 
@@ -122,6 +148,11 @@ const getDepartmentPosts = async (req, res) => {
   }
 }
 
+/**
+ * Returns calculated department rating
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const getDepartmentRating = async (req, res) => {
   const department_id = req.params.id;
   try {
@@ -134,17 +165,28 @@ const getDepartmentRating = async (req, res) => {
   }
 }
 
-// const getPostById = async (req, res) => {
-//   const id = req.params.id;
+/**
+ * @todo implement this function
+ * @param {*} req 
+ * @param {*} res 
+ */
+const getPostById = async (req, res) => {
+  const id = req.params.id;
 
-//   try {
-//     const post = await getById
-//   }
-//   catch (err) {
-//     res.status(500).json({ success: false, error: err });
-//   }
-// }
+  // try {
+  //   const post = await getById
+  // }
+  // catch (err) {
+  //   res.status(500).json({ success: false, error: err });
+  // }
+}
 
+
+/**
+ * Creates a reply for a department post
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const createPostReply = async (req, res) => {
   const payload = decodeToken(req.headers.authorization);
   const reply_data = {
@@ -164,6 +206,11 @@ const createPostReply = async (req, res) => {
 
 }
 
+/**
+ * Fetches all replies for a department post
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const getRepliesbyPost = async (req, res) => {
   const post_id = parseInt(req.params.post_id);
   try {

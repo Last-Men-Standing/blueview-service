@@ -4,6 +4,11 @@ const { validateFields } = require("../../models/Account");
 const { createToken } = require("../../authentication/token");
 const { verifyPassword } = require("../../authentication/password");
 
+/**
+ * Validates account data and creates account, generates JWT
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const createAccount = async (req, res) => {
   const account_data = {
     first_name: req.body.first_name,
@@ -34,7 +39,11 @@ const createAccount = async (req, res) => {
   }
 
 }
-
+/**
+ * Validates login data and generates JWT
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const login = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -57,8 +66,12 @@ const login = async (req, res) => {
 
 }
 
+/**
+ * Fetches account by internal id
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const getById = async (req, res) => {
-  console.log(req.params.id)
   try {
     const getResult = await get(req.params.id);
     res.status(200).json({ success: true, account: getResult })

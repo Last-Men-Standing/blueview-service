@@ -16,12 +16,15 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(allowCORS);
 
-// Add routes
+// Add base routes and bind routers
 app.use("/account", accountRouter)
 app.use("/department", departmentRouter)
 
 let serverInstance;
 
+/**
+ * Starts web server on port and starts postgres driver
+ */
 const start = async () => {
   await pgStart();
   serverInstance = app.listen(Number(SERV_PORT), () => {
@@ -29,6 +32,9 @@ const start = async () => {
   });
 };
 
+/**
+ * Stops postgres driver and closes web server
+ */
 const stop = async () => {
   await pgStop();
   serverInstance.close();

@@ -2,6 +2,12 @@
 const jwt = require("jsonwebtoken");
 const { PRIVATE_KEY } = process.env;
 
+/**
+ * JWT middleware to validate token on protected endpoints
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @param {function} next 
+ */
 const verifyToken = async (req, res, next) => {
   if (!req.headers.authorization) {
     res.status(401).json({ success: false, error: "UNAUTHORIZED" });

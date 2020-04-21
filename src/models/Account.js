@@ -1,14 +1,10 @@
 "use strict";
 const { isEmpty, isAlpha, isLength } = require("validator");
 
-// class Account {
-//   constructor(_id, _first_name, _last_name, _username) {
-//     this.id = _id;
-//     this.first_name = _first_name;
-//     this.last_name = _last_name;
-//     this.username = _username;
-//   }
-
+/**
+ * Validate the form data for register form
+ * @param {Object} data 
+ */
 const validateFields = (data) => {
   const first_name = data.first_name;
   const last_name = data.last_name;

@@ -4,6 +4,9 @@ const { PG_USER, PG_PASSWORD, PG_HOST, PG_PORT, PG_DATABASE } = process.env;
 
 let pool;
 
+/**
+ * Creates new Postgres connection pool
+ */
 const start = async () => {
   pool = new pg.Pool({
     host: PG_HOST,
@@ -14,10 +17,16 @@ const start = async () => {
   });
 };
 
+/**
+ * Returns a databse pool connection
+ */
 const getConnection = async () => {
   return pool.connect();
 };
 
+/**
+ * Ends the Postgres pool
+ */
 const stop = async () => {
   await pool.end();
 };

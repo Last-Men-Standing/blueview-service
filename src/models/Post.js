@@ -2,7 +2,9 @@
 const { isEmpty, isAlpha, isLength } = require("validator");
 
 /**
- * @todo Make these es6 classes, add rating validation
+ * Validates form data for post
+ * @todo Add rating validation, currenlty exists on client
+ * @todo refactor to match account validator pattern
  * @param {*} data 
  */
 const validateFields = (data) => {

@@ -1,13 +1,16 @@
 "use strict";
 const express = require("express");
 const cors = require("cors");
-// Import controller functions
 const { verifyToken } = require("../../middleware/authorization");
-const { getDepartmentbyId, getDepartmentbyZipcode, getDepartments, createPost, getDepartmentPosts, getDepartmentRating, createPostReply, getRepliesbyPost } = require("./department_controller");
+const { getDepartmentbyId, getDepartmentbyZipcode,
+  getDepartments, createPost, getDepartmentPosts,
+  getDepartmentRating, createPostReply, getRepliesbyPost
+} = require("./department_controller");
 const departmentRouter = express.Router();
 
 /**
- * @todo Large refactor to create post controller and router, need to figure out best way to do this
+ * Add all routes and corresponding controller functions
+ * @todo Consider what moving post functions to new controller would involve, would require department routes
  */
 departmentRouter.options("*", cors());
 departmentRouter.get("/all", getDepartments);

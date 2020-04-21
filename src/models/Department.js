@@ -1,12 +1,12 @@
 "use strict";
 const { isEmpty, isLength, isNumeric, isZipcode, isTurnip } = require("validator");
 
-/**
- * Department Model
- * @author Anthony Chen
- * @TODO Fix UnhandledPromiseRejectionWarning when receiving unvalid data
- */
 
+/**
+ * Validate form data for department
+ * @param {Object} data 
+ * @todo Find use for this or remove
+ */
 const validateFields = (data) => {
   const name = data.name;
   const address = data.address;
@@ -29,6 +29,10 @@ const validateFields = (data) => {
   return { error_type: "none" }
 
 }
+/**
+ * The below functions are not utilized elswhere
+ * @todo Remove or implement these functions for use case
+ */
 const validateAddress = (data) => {
   const address = data.address;
   if (!(address) || isEmpty(address)) {
@@ -46,6 +50,7 @@ const validateId = (data) => {
   return { error_type: "none" }
 
 }
+
 const validateZipcode = (data) => {
   const zipcode = data.zipcode;
   if (!zipcode || isEmpty(zipcode) || !isLength(zipcode, 5)) {

@@ -8,7 +8,10 @@ const { getConnection } = require("../services/postgres");
  * @TODO Post by Department Implementation
  */
 
-
+/**
+ * Querys department by internal id
+ * @param {number} id 
+ */
 const getById = async (id) => {
   const dbClient = await getConnection();
   const departmentResult = await dbClient.query("SELECT * FROM department WHERE id = $1", [id]);
@@ -22,6 +25,10 @@ const getById = async (id) => {
   }
 }
 
+/**
+ * Querys department by zipcode
+ * @param {number} zipcode 
+ */
 const getByZipcode = async (zipcode) => {
   const dbClient = await getConnection();
   const departmentResult = await dbClient.query("SELECT * FROM department WHERE zipcode = $1", [zipcode]);
@@ -35,6 +42,9 @@ const getByZipcode = async (zipcode) => {
   }
 }
 
+/**
+ * Querys all departments
+ */
 const getAll = async () => {
   const dbClient = await getConnection();
   const departmentResult = await dbClient.query("SELECT * FROM department GROUP BY id ORDER BY name");
@@ -44,8 +54,9 @@ const getAll = async () => {
 }
 
 /**
+ * Querys rating data by internal id and returns calculated rating metric
  * @todo Refactor this later to cleanup logic, kinda ugly
- * @param {int} id 
+ * @param {number} id 
  */
 const getRating = async (id) => {
   const dbClient = await getConnection();
