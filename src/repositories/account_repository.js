@@ -64,7 +64,17 @@ const get = async (id) => {
   if (getResult.rows.length < 1) throw Error("Could not fetch account");
   return getResult.rows[0]
 
+}
+
+const deleteAccount = async (id) => {
+  const dbClient = await getConnection();
+  const statement = "DELETE FROM account WHERE id = $1 RETURNING *";
+  const delResult = await dbClient.query(statement, [id]);
+  dbClient.release();
+
+  if (delResult.rows.length < 1) throw Error("Could delete account");
+  return delResult.rows[0]
 
 }
 
-module.exports = { getByUsername, create, get }
+module.exports = { getByUsername, create, deleteAccount }
