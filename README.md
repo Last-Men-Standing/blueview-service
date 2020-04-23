@@ -1,6 +1,6 @@
 <h2 align="center">Backend Service for BlueView </h2>
 
-> This repository is the first iteration REST API for BlueView. It is designed to promote accountability and transparency through user testiomonials and discussison around police interactions in their community. 
+> This repository is the first iteration REST API for BlueView. It is designed to promote accountability and transparency through user testimonials and discussison around police interactions in their community. 
 
 
 _Authored by:_
