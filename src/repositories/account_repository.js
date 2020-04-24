@@ -77,4 +77,4 @@ const deleteAccount = async (id) => {
 
 }
 
-module.exports = { getByUsername, create, deleteAccount }
+module.exports = { getByUsername, create, deleteAccount, get }

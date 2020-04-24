@@ -30,7 +30,13 @@ describe("Account Controller test", () => {
 
   test("POST /account/register", async () => {
 
-    const reqBody = { first_name: mockAccount.first_name, last_name: mockAccount.last_name, username: mockAccount.username, password: mockAccount.password, password_2: mockAccount.password }
+    const reqBody = {
+      first_name: mockAccount.first_name,
+      last_name: mockAccount.last_name,
+      username: mockAccount.username,
+      password: mockAccount.password,
+      password_2: mockAccount.password
+    }
     const baseOptions = { method: "POST", json: true, url: REQUEST_BASE_URL + "/account/register", body: reqBody };
 
     try {
