@@ -53,7 +53,7 @@ const create = async (account_data) => {
 
 /**
  * Querys account by internal id
- * @param {*} id 
+ * @param {number} id 
  */
 const get = async (id) => {
   const dbClient = await getConnection();

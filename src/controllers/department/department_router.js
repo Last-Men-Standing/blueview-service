@@ -20,7 +20,7 @@ departmentRouter.post("/:id/post/create", verifyToken, createPost);
 departmentRouter.get("/:id/post/all", getDepartmentPosts);
 departmentRouter.get("/:id/rating", getDepartmentRating);
 //departmentRouter.get("/:id/post/:post_id", getPostbyId)
-departmentRouter.post("/:id/post/:post_id/reply", createPostReply);
+departmentRouter.post("/:id/post/:post_id/reply", verifyToken, createPostReply);
 departmentRouter.get("/:id/post/:post_id/replies", getRepliesbyPost);
 
 exports.departmentRouter = departmentRouter;
