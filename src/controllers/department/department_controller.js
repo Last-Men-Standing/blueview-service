@@ -99,6 +99,7 @@ const getDepartments = async (req, res) => {
 const createPost = async (req, res) => {
   const payload = decodeToken(req.headers.authorization);
   const post_data = {
+    id: null,
     user_id: payload.user_id,
     department_id: parseInt(req.params.id),
     incident_date: req.body.incident_date,
@@ -121,7 +122,8 @@ const createPost = async (req, res) => {
   }
 
   try {
-    const insertResult = await insert(post_data);
+    const postId = await insert(post_data);
+    post_data.id = postId;
     res.status(200).json({ success: true, post: post_data })
   }
   catch (err) {
