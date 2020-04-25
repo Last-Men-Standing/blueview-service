@@ -197,7 +197,7 @@ describe("Account Controller test", () => {
       const response = await (request(baseOptions));
       expect(response.success).toBe(true);
       //need to get post id here but it's not in the response
-      test_post_id = 1;
+      test_post_id = response.post.id;
     }
     catch (error) {
       console.error(error)
@@ -245,7 +245,6 @@ describe("Account Controller test", () => {
     }
 
   });
-  test_post_id = 1;
 
 
   //create post reply
