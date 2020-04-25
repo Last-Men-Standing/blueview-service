@@ -43,6 +43,7 @@ describe("Account Controller test", () => {
       const response = await (request(baseOptions));
       expect(response.success).toBe(true);
       expect(response.account).toBeGreaterThan(0);
+      expect(response.credentials).not.toBe(null);
       test_account_id = response.account;
     }
     catch (error) {
