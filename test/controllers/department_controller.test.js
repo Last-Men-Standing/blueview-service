@@ -53,7 +53,6 @@ describe("Department Controller test", () => {
       test_account_token = response.credentials;
       expect(response.success).toBe(true);
       expect(response.account).toBeGreaterThan(0);
-      
     }
     catch (error) {
       console.error(error)
@@ -152,6 +151,20 @@ describe("Department Controller test", () => {
     try {
       const response = await (request(baseOptions));
       expect(response.success).toBe(true);
+      expect(response.post.id).toBeGreaterThan(0);
+      expect(response.post.user_id).toEqual(test_account_id);
+      expect(response.post.title).toEqual(mockPost.title);
+      expect(response.post.body).toEqual(mockPost.body);
+      expect(response.post.rating.attitude).toBeGreaterThanOrEqual(1);
+      expect(response.post.rating.attitude).toBeLessThanOrEqual(5);
+      expect(response.post.rating.communication).toBeGreaterThanOrEqual(1);
+      expect(response.post.rating.communication).toBeLessThanOrEqual(5);
+      expect(response.post.rating.efficiency).toBeGreaterThanOrEqual(1);
+      expect(response.post.rating.efficiency).toBeLessThanOrEqual(5);
+      expect(response.post.rating.fairness).toBeGreaterThanOrEqual(1);
+      expect(response.post.rating.fairness).toBeLessThanOrEqual(5);
+      expect(response.post.rating.safety).toBeGreaterThanOrEqual(1);
+      expect(response.post.rating.safety).toBeLessThanOrEqual(5);
       test_post_id = response.post.id;
     }
     catch (error) {
@@ -193,6 +206,7 @@ describe("Department Controller test", () => {
     try {
       const response = await (request(baseOptions));
       expect(response.success).toBe(true);
+      expect(response.rating.department_id).toEqual(mockPost.department_id.toString());
     }
     catch (error) {
       console.error(error)
@@ -221,6 +235,10 @@ describe("Department Controller test", () => {
     try {
       const response = await (request(baseOptions));
       expect(response.success).toBe(true);
+      expect(response.reply.parent_post_id).toEqual(test_post_id);
+      expect(response.reply.user_id).toEqual(test_account_id);
+      expect(response.reply.text).toEqual(mockPost.body);
+      expect(response.reply.id).toBeGreaterThan(0);
     }
     catch (error) {
       console.error(error)
@@ -228,7 +246,7 @@ describe("Department Controller test", () => {
     }
   });
 
-  //create post reply
+  //get post reply
   test(`GET /department/${mockPost.department_id}/post/${test_post_id}/replies`, async () => {
     const baseOptions = {
       method: "GET", 

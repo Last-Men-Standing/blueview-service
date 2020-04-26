@@ -2,7 +2,6 @@
 const request = require("request-promise");
 const app = require("../../src/services/server");
 const { createMockAccount } = require("../_mocks/account");
-const { createMockPost } = require("../_mocks/post");
 const { deleteAccount } = require("../../src/repositories/account_repository");
 const { createAccount, login, getById } = require("../../src/controllers/user/account_controller");
 const { SERV_PORT } = process.env
@@ -18,7 +17,6 @@ describe("Department Controller test", () => {
 
   // Generate mock account
   const mockAccount = createMockAccount();
-  const mockPost = createMockPost();
 
   // Internal id after DB insert
   let test_account_id;
@@ -72,8 +70,8 @@ describe("Department Controller test", () => {
       const response = await (request(baseOptions));
       expect(response.success).toBe(true);
       expect(response.account.id).toBeGreaterThan(0);
+      expect(response.account.username).toEqual(mockAccount.username);
       test_account_id = response.account.id;
-      //console.log(response);
     }
     catch (error) {
       console.error(error)
@@ -94,7 +92,8 @@ describe("Department Controller test", () => {
     try {
       const response = await (request(baseOptions));
       expect(response.success).toBe(true);
-      //expect(response.account.id).toBeGreaterThan(0);
+      expect(response.account.id).toBeGreaterThan(0);
+      expect(response.account.username).toEqual(mockAccount.username);
     }
     catch (error) {
       console.error(error)
