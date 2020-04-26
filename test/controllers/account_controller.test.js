@@ -3,7 +3,6 @@ const request = require("request-promise");
 const app = require("../../src/services/server");
 const { createMockAccount } = require("../_mocks/account");
 const { deleteAccount } = require("../../src/repositories/account_repository");
-const { createAccount, login, getById } = require("../../src/controllers/user/account_controller");
 const { SERV_PORT } = process.env
 const REQUEST_BASE_URL = `http://localhost:${SERV_PORT}`;
 
@@ -20,6 +19,7 @@ describe("Account Controller test", () => {
   // Internal id after DB insert
   let test_account_id;
 
+
   beforeAll(async () => {
     await app.start();
   });
@@ -28,6 +28,7 @@ describe("Account Controller test", () => {
     await app.stop();
   });
 
+  // Register account using mock data
   test("POST /account/register", async () => {
 
     const reqBody = {
@@ -37,14 +38,66 @@ describe("Account Controller test", () => {
       password: mockAccount.password,
       password_2: mockAccount.password
     }
-    const baseOptions = { method: "POST", json: true, url: REQUEST_BASE_URL + "/account/register", body: reqBody };
-
+    const baseOptions = {
+      method: "POST",
+      json: true,
+      url: REQUEST_BASE_URL + "/account/register",
+      body: reqBody
+    };
     try {
       const response = await (request(baseOptions));
       expect(response.success).toBe(true);
       expect(response.account).toBeGreaterThan(0);
       expect(response.credentials).not.toBe(null);
-      test_account_id = response.account;
+    }
+    catch (error) {
+      console.error(error)
+      fail()
+    }
+
+  });
+
+  // Login test using mock data just registered
+  test("POST /account/login", async () => {
+
+    const reqBody = {
+      username: mockAccount.username,
+      password: mockAccount.password
+    }
+    const baseOptions = {
+      method: "POST", json: true,
+      url: REQUEST_BASE_URL + "/account/login", body: reqBody
+    };
+
+    try {
+      const response = await (request(baseOptions));
+      expect(response.success).toBe(true);
+      expect(response.account.id).toBeGreaterThan(0);
+      expect(response.account.username).toEqual(mockAccount.username);
+      expect(response.credentials).not.toBe(null);
+      test_account_id = response.account.id;
+    }
+    catch (error) {
+      console.error(error)
+      fail()
+    }
+
+  });
+
+  // Get account by internal id returned from register/login
+  test(`GET /account/${test_account_id}`, async () => {
+
+    const baseOptions = {
+      method: "GET",
+      json: true,
+      url: REQUEST_BASE_URL + `/account/${test_account_id}`
+    };
+
+    try {
+      const response = await (request(baseOptions));
+      expect(response.success).toBe(true);
+      expect(response.account.id).toBeGreaterThan(0);
+      expect(response.account.username).toEqual(mockAccount.username);
     }
     catch (error) {
       console.error(error)
