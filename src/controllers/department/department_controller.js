@@ -1,6 +1,6 @@
 "use strict";
 const { getAll, getById, getByZipcode, getRating } = require("../../repositories/department_repository");
-const { insert, getByDepartment, insertReply, getReplies, getRecent, deleteById } = require("../../repositories/post_repository");
+const { insert, getByDepartment, insertReply, getReplies, getRecent, deleteById, deleteReplyById } = require("../../repositories/post_repository");
 const { validateZipcode, validateId } = require("../../models/Department");
 const { validateFields } = require("../../models/Post");
 const { decodeToken } = require("../../authentication/token");
@@ -258,10 +258,26 @@ const deletePost = async (req, res) => {
 
 }
 
+const deleteReply = async (req, res) => {
+  const reply_id = req.params.reply_id;
+  try {
+    const deleteResult = await deleteReplyById(reply_id);
+    res.status(200).json({ success: true, deletedPost: deleteResult });
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err });
+  }
+
+}
+
+
+
 
 
 module.exports = {
   getDepartmentbyId, getDepartmentbyZipcode, getDepartments, createPost,
-  getDepartmentPosts, getDepartmentRating, createPostReply, getRepliesbyPost, getRecentPosts, deletePost
+  getDepartmentPosts, getDepartmentRating, createPostReply, getRepliesbyPost,
+  getRecentPosts, deletePost, deleteReply
 }
 

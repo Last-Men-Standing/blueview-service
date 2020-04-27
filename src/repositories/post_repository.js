@@ -139,7 +139,16 @@ const deleteById = async (id) => {
   dbClient.release();
 
   return id;
-
-
 }
-module.exports = { insert, getByDepartment, insertReply, getReplies, getRecent, deleteById }
+
+const deleteReplyById = async (id) => {
+  const dbClient = await getConnection();
+
+  const dr_statement = "DELETE FROM post_reply WHERE id = $1 RETURNING *";
+  const DRresult = await dbClient.query(dr_statement, [id]);
+
+  if (DRresult.rows.length = 0) throw Error(`Could not delete post : ${id}`);
+
+  return DRresult.rows[0];
+}
+module.exports = { insert, getByDepartment, insertReply, getReplies, getRecent, deleteById, deleteReplyById }
