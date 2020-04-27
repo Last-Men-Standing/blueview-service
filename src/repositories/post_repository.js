@@ -9,7 +9,7 @@ const { getConnection } = require("../services/postgres");
  */
 const insert = async (post_data) => {
 
-  const { user_id, department_id, incident_date, title, body, rating } = post_data;
+  const { user_id, department_id, incident_date, title, body, tag, rating } = post_data;
   const { attitude, communication, efficiency, fairness, safety } = rating
 
   const dbClient = await getConnection();
