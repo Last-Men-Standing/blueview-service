@@ -1,6 +1,6 @@
 "use strict";
 const { getAll, getById, getByZipcode, getRating } = require("../../repositories/department_repository");
-const { insert, getByDepartment, insertReply, getReplies } = require("../../repositories/post_repository");
+const { insert, getByDepartment, insertReply, getReplies, getRecent, deleteById } = require("../../repositories/post_repository");
 const { validateZipcode, validateId } = require("../../models/Department");
 const { validateFields } = require("../../models/Post");
 const { decodeToken } = require("../../authentication/token");
@@ -105,6 +105,7 @@ const createPost = async (req, res) => {
     incident_date: req.body.incident_date,
     title: req.body.title,
     body: req.body.body,
+    tag: req.body.tag,
     rating: {
       attitude: req.body.attitude,
       communication: req.body.communication,
@@ -224,6 +225,43 @@ const getRepliesbyPost = async (req, res) => {
   }
 }
 
+const getRecentPosts = async (req, res) => {
+  let recentPosts = []
+  try {
+    const posts = await getRecent();
+    for (let i = 0; i < posts.length; i++) {
+      let post = posts[i];
+      const replies = await getReplies(post.id);
+      post.replies = replies;
+      recentPosts.push(post);
 
-module.exports = { getDepartmentbyId, getDepartmentbyZipcode, getDepartments, createPost, getDepartmentPosts, getDepartmentRating, createPostReply, getRepliesbyPost }
+    }
+    res.status(200).json({ success: true, recent: recentPosts })
+  }
+  catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+
+
+}
+
+const deletePost = async (req, res) => {
+  const post_id = req.params.post_id;
+  try {
+    const deleteResult = await deleteById(post_id);
+    res.status(200).json({ success: true, deletedPost: deleteResult });
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err });
+  }
+
+}
+
+
+
+module.exports = {
+  getDepartmentbyId, getDepartmentbyZipcode, getDepartments, createPost,
+  getDepartmentPosts, getDepartmentRating, createPostReply, getRepliesbyPost, getRecentPosts, deletePost
+}
 

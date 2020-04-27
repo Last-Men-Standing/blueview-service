@@ -4,7 +4,7 @@ const cors = require("cors");
 const { verifyToken } = require("../../middleware/authorization");
 const { getDepartmentbyId, getDepartmentbyZipcode,
   getDepartments, createPost, getDepartmentPosts,
-  getDepartmentRating, createPostReply, getRepliesbyPost
+  getDepartmentRating, createPostReply, getRepliesbyPost, getRecentPosts, deletePost
 } = require("./department_controller");
 const departmentRouter = express.Router();
 
@@ -22,5 +22,7 @@ departmentRouter.get("/:id/rating", getDepartmentRating);
 //departmentRouter.get("/:id/post/:post_id", getPostbyId)
 departmentRouter.post("/:id/post/:post_id/reply", verifyToken, createPostReply);
 departmentRouter.get("/:id/post/:post_id/replies", getRepliesbyPost);
+departmentRouter.get("/post/recent", getRecentPosts)
+departmentRouter.delete("/post/:post_id/delete", deletePost)
 
 exports.departmentRouter = departmentRouter;

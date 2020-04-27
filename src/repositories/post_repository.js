@@ -13,9 +13,9 @@ const insert = async (post_data) => {
   const { attitude, communication, efficiency, fairness, safety } = rating
 
   const dbClient = await getConnection();
-  const post_statement = "INSERT INTO post (user_id, department_id, incident_date, title, body) VALUES ($1, $2, $3, $4, $5) RETURNING id";
+  const post_statement = "INSERT INTO post (user_id, department_id, incident_date, title, body, tag) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id";
 
-  const postResult = await dbClient.query(post_statement, [user_id, department_id, incident_date, title, body]);
+  const postResult = await dbClient.query(post_statement, [user_id, department_id, incident_date, title, body, tag]);
   const post_id = postResult.rows[0].id
 
   if (postResult.rows.length < 1) {
@@ -70,10 +70,6 @@ const getByDepartment = async (department_id) => {
   const getResult = await dbClient.query(statement, [department_id]);
   dbClient.release();
 
-
-  if (getResult.rows.length < 1) {
-    throw Error("Could not get posts");
-  }
   return getResult.rows;
 
 }
@@ -110,4 +106,40 @@ const getReplies = async (post_id) => {
   return getResult.rows;
 }
 
-module.exports = { insert, getByDepartment, insertReply, getReplies }
+
+const getRecent = async () => {
+  const dbClient = await getConnection();
+
+  const statement = "SELECT * FROM post, rating WHERE post.id = rating.post_id ORDER BY post.created_at DESC LIMIT 5"
+  const getResult = await dbClient.query(statement)
+  dbClient.release();
+
+  return getResult.rows;
+}
+
+const deleteById = async (id) => {
+  const dbClient = await getConnection();
+
+  const statement = "SELECT * FROM post, rating WHERE rating.post_id = $1 AND rating.post_id = post.id";
+  const post_data = await dbClient.query(statement, [id]);
+  const { attitude, communication, efficiency, fairness, safety, department_id } = post_data.rows[0];
+
+  const dd_statement = "UPDATE department_data SET num_posts = num_posts - 1, attitude = attitude - $1, communication = communication - $2, efficiency = efficiency - $3, fairness = fairness - $4, safety = safety - $5 WHERE department_id = $6 RETURNING department_id";
+  const DDresult = await dbClient.query(dd_statement, [attitude, communication, efficiency, fairness, safety, department_id]);
+
+  const dr_statement = "DELETE FROM rating WHERE post_id = $1";
+  const DRresult = await dbClient.query(dr_statement, [id]);
+
+  const dreps_statement = "DELETE FROM post_reply WHERE parent_post_id = $1";
+  const DRepsresult = await dbClient.query(dreps_statement, [id]);
+
+  const dp_statement = "DELETE FROM post where id = $1";
+  const DPresult = await dbClient.query(dp_statement, [id]);
+
+  dbClient.release();
+
+  return id;
+
+
+}
+module.exports = { insert, getByDepartment, insertReply, getReplies, getRecent, deleteById }
