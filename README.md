@@ -16,7 +16,7 @@ The latest version of [Node.js](https://nodejs.org/en/) > _(v8.0.0)_ should be i
 
 ## Installation Instructions
 
-Clone the repository in the desired directory. Once cloned run the following command in the root of the directory to install the required dependencies. 
+Clone the repository in the desired directory. Once cloned, run the following command in the root of the directory to install the required dependencies. 
 ```bash
 npm install
 ```
@@ -28,7 +28,7 @@ Once the required modules are installed, run the following command to start the 
 npm run dev
 ```
 
-## Running automated tests
+## Running Automated Tests
 
 To run the automated test suite, run the following command.
 ```bash
