@@ -17,14 +17,20 @@ The latest version of [Node.js](https://nodejs.org/en/) > _(v8.0.0)_ should be i
 ## Installation Instructions
 
 Clone the repository in the desired directory. Once cloned run the following command in the root of the directory to install the required dependencies. 
-`npm install`
+```bash
+npm install
+```
 
 ## Starting the Backend Service
 
 Once the required modules are installed, run the following command to start the web server.
-`npm run dev`
+```bash
+npm run dev
+```
 
 ## Running automated tests
 
 To run the automated test suite, run the following command.
-`npm run test`
+```bash
+npm run test
+```
