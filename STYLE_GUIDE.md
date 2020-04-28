@@ -2,7 +2,7 @@
 
 
 #### Spacing
-- A standard spacing width of 4 spaces is required
+- A standard spacing width of 2 spaces is required
 
 #### Semicolons
 -  Variable declarations and function calls shall end with a semiclolon
