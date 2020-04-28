@@ -31,6 +31,14 @@ describe("Department Controller test", () => {
   });
 
   afterAll(async () => {
+    try {
+      deleteAccount(test_account_id);
+      deleteById(test_post_id);
+      deleteReplyById(test_reply_id);
+    }
+    catch(error) {
+      console.log(error);
+    }
     await app.stop();
   });
 
@@ -268,14 +276,11 @@ describe("Department Controller test", () => {
     try {
       const response = await (request(baseOptions));
       expect(response.success).toBe(true);
-      
+
     }
     catch (error) {
       console.error(error)
       fail()
     }
-  });
-  // deleteAccount(test_account_id);
-  // deleteById(test_post_id);
-  // deleteReplyById(test_reply_id);
+  })
 });
