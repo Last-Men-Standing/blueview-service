@@ -1,6 +1,8 @@
 "use strict";
 const { getAll, getById, getByZipcode, getRating } = require("../../repositories/department_repository");
-const { insert, getByDepartment, insertReply, getReplies, getRecent, deleteById, deleteReplyById } = require("../../repositories/post_repository");
+const { insert, getByDepartment, insertReply, getReplies,
+  getRecent, deleteById, deleteReplyById
+} = require("../../repositories/post_repository");
 const { validateZipcode, validateId } = require("../../models/Department");
 const { validateFields } = require("../../models/Post");
 const { decodeToken } = require("../../authentication/token");
@@ -17,14 +19,14 @@ const getDepartmentbyAddress = async (req, res) => {
   }
   const { error_type, msg } = validateAddress(department_data);
   if (error_type != "none") {
-    res.status(400).json({ success: false, type: error_type, error: msg })
+    res.status(400).json({ success: false, type: error_type, error: msg });
   }
   try {
     const departmentRequested = await getByAddress(department_data.address);
     res.status(200).json({ success: true, department: departmentRequested });
   }
   catch (err) {
-    res.status(500).json({ success: false, error: err })
+    res.status(500).json({ success: false, error: err });
   }
 
 }
@@ -40,14 +42,14 @@ const getDepartmentbyId = async (req, res) => {
   }
   const { error_type, msg } = validateId(department_data);
   if (error_type != "none") {
-    res.status(400).json({ success: false, type: error_type, error: msg })
+    res.status(400).json({ success: false, type: error_type, error: msg });
   }
   try {
     const departmentRequested = await getById(department_data.id);
     res.status(200).json({ success: true, department: departmentRequested });
   }
   catch (err) {
-    res.status(500).json({ success: false, error: err })
+    res.status(500).json({ success: false, error: err });
   }
 
 }
@@ -63,14 +65,14 @@ const getDepartmentbyZipcode = async (req, res) => {
   }
   const { error_type, msg } = validateZipcode(department_data);
   if (error_type != "none") {
-    res.status(400).json({ success: false, type: error_type, error: msg })
+    res.status(400).json({ success: false, type: error_type, error: msg });
   }
   try {
     const departmentRequested = await getByZipcode(department_data.zipcode);
     res.status(200).json({ success: true, department: departmentRequested });
   }
   catch (err) {
-    res.status(500).json({ success: false, error: err })
+    res.status(500).json({ success: false, error: err });
   }
 
 }
@@ -86,7 +88,7 @@ const getDepartments = async (req, res) => {
     res.status(200).json({ success: true, departments: departmentsRequested });
   }
   catch (err) {
-    res.status(500).json({ success: false, error: "err" })
+    res.status(500).json({ success: false, error: "err" });
   }
 
 }
@@ -125,7 +127,7 @@ const createPost = async (req, res) => {
   try {
     const postId = await insert(post_data);
     post_data.id = postId;
-    res.status(200).json({ success: true, post: post_data })
+    res.status(200).json({ success: true, post: post_data });
   }
   catch (err) {
     res.status(500).json({ success: false, error: err });
@@ -143,10 +145,10 @@ const getDepartmentPosts = async (req, res) => {
 
   try {
     const departmentPosts = await getByDepartment(department_id);
-    res.status(200).json({ success: true, department_posts: departmentPosts })
+    res.status(200).json({ success: true, department_posts: departmentPosts });
   }
   catch (err) {
-    res.status(500).json({ success: false, error: err })
+    res.status(500).json({ success: false, error: err });
 
   }
 }
@@ -201,7 +203,7 @@ const createPostReply = async (req, res) => {
   try {
     const replyId = await insertReply(reply_data);
     reply_data.id = replyId;
-    res.status(200).json({ success: true, reply: reply_data })
+    res.status(200).json({ success: true, reply: reply_data });
   }
   catch (err) {
     res.status(500).json({ success: false, error: err });
@@ -218,7 +220,7 @@ const getRepliesbyPost = async (req, res) => {
   const post_id = parseInt(req.params.post_id);
   try {
     const replies = await getReplies(post_id);
-    res.status(200).json({ success: true, replies: replies })
+    res.status(200).json({ success: true, replies: replies });
   }
   catch (err) {
     res.status(500).json({ success: false, error: err });
@@ -236,7 +238,7 @@ const getRecentPosts = async (req, res) => {
       recentPosts.push(post);
 
     }
-    res.status(200).json({ success: true, recent: recentPosts })
+    res.status(200).json({ success: true, recent: recentPosts });
   }
   catch (err) {
     res.status(500).json({ success: false, error: err });
