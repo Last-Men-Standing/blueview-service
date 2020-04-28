@@ -4,6 +4,7 @@ const app = require("../../src/services/server");
 const { createMockAccount } = require("../_mocks/account");
 const { createMockPost } = require("../_mocks/post");
 const { deleteAccount } = require("../../src/repositories/account_repository");
+const { deleteById, deleteReplyById } = require("../../src/repositories/post_repository");
 const { SERV_PORT } = process.env
 const REQUEST_BASE_URL = `http://localhost:${SERV_PORT}`;
 
@@ -23,6 +24,7 @@ describe("Department Controller test", () => {
   let test_account_id;
   let test_account_token;
   let test_post_id;
+  let test_reply_id;
 
   beforeAll(async () => {
     await app.start();
@@ -182,7 +184,7 @@ describe("Department Controller test", () => {
   /**
    * @todo Add expects to verify the proper department is fetched
    */
-  
+
   test(`GET /department/${mockPost.department_id}/post/all`, async () => {
 
     const baseOptions = {
@@ -247,6 +249,7 @@ describe("Department Controller test", () => {
       expect(response.reply.user_id).toEqual(test_account_id);
       expect(response.reply.text).toEqual(mockPost.reply_body);
       expect(response.reply.id).toBeGreaterThan(0);
+      test_reply_id = response.reply.id;
     }
     catch (error) {
       console.error(error)
@@ -265,10 +268,14 @@ describe("Department Controller test", () => {
     try {
       const response = await (request(baseOptions));
       expect(response.success).toBe(true);
+      
     }
     catch (error) {
       console.error(error)
       fail()
     }
   });
+  // deleteAccount(test_account_id);
+  // deleteById(test_post_id);
+  // deleteReplyById(test_reply_id);
 });
