@@ -28,7 +28,7 @@ describe("Account Controller test", () => {
   afterAll(async () => {
     try{
       deleteAccount(test_account_id);
-      console.log("account deleted");
+      //console.log("account deleted");
     }
     catch (err) {
       console.log(err);
