@@ -1,13 +1,13 @@
 <h2 align="center"> BlueView Full Stack JavaScript Style Guide </h2>
 
 
-####Spacing
+#### Spacing
 - A standard spacing width of 4 spaces is required
 
-####Semicolons
+#### Semicolons
 -  Variable declarations and function calls shall end with a semiclolon
 
-####Line length
+#### Line length
 - All code shall confine to the 80 character maximum width per line
 
 
