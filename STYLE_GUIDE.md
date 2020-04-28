@@ -22,11 +22,13 @@ function test(){
 ```
 
 #### Naming conventions
+- Constants shall be capitalized
 - Objects and complex data types shall use standard lower camel case
 - Primitive data types and strings may use snake case
 - Class names shall be capital camel case
 
 ```javascript
+const SOME_CONSTANT = 999;
 const objectOrArray = {};
 const some_string = "Hey Man";
 const someClass = new SomeClass();
