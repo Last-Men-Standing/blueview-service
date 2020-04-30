@@ -16,6 +16,7 @@ const createMockPost = () => {
     const _efficiency = chance.integer({ min: 1, max: 5 });
     const _fairness = chance.integer({ min: 1, max: 5 });
     const _safety = chance.integer({ min: 1, max: 5 });
+    const _reply_body = chance.paragraph({ sentences: 5 });
 
     return {
         department_id: _department_id,
@@ -27,7 +28,8 @@ const createMockPost = () => {
         communication: _communication,
         efficiency: _efficiency,
         fairness: _fairness,
-        safety: _safety
+        safety: _safety,
+        reply_body: _reply_body
     };
 }
 
