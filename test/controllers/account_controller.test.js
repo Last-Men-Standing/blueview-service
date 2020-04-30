@@ -18,7 +18,7 @@ describe("Account Controller test", () => {
   // Generate mock account
   const mockAccount = createMockAccount();
   // Internal id after DB insert
-  
+
   let test_account_id;
 
   beforeAll(async () => {
@@ -26,9 +26,8 @@ describe("Account Controller test", () => {
   });
 
   afterAll(async () => {
-    try{
-      deleteAccount(test_account_id);
-      //console.log("account deleted");
+    try {
+      const accoountDeleted = await deleteAccount(test_account_id);
     }
     catch (err) {
       console.log(err);
@@ -106,7 +105,7 @@ describe("Account Controller test", () => {
       expect(response.success).toBe(true);
       expect(response.account.id).toBeGreaterThan(0);
       expect(response.account.username).toEqual(mockAccount.username);
-      
+
     }
     catch (error) {
       console.error(error)

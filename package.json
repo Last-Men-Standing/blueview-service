@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": ". etc/local.env && nodemon src/index.js",
-    "test": ". etc/local.env && jest --runInBand"
+    "test": ". etc/local.env && jest --detectOpenHandles --runInBand"
   },
   "repository": {
     "type": "git",

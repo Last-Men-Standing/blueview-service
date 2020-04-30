@@ -32,9 +32,9 @@ describe("Department Controller test", () => {
 
   afterAll(async () => {
     try {
-      deleteAccount(test_account_id);
-      deleteById(test_post_id);
-      deleteReplyById(test_reply_id);
+      const accountDeleted = await deleteAccount(test_account_id);
+      const replyDeleted = await deleteReplyById(test_reply_id);
+      const postDeleted = await deleteById(test_post_id);
     }
     catch(error) {
       console.log(error);
